@@ -1,66 +1,185 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Projet Agriculture Connectée
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Ce projet est une application web d'agriculture connectée construite avec **Laravel 11**. Elle permet de gérer les données des capteurs simulés via des APIs, d'afficher les alertes, et de superviser des projets et équipes liés à l'agriculture connectée. Le projet utilise **Laravel Blade** pour le frontend (fullstack).
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Prérequis
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Assurez-vous d'avoir les éléments suivants installés sur votre machine :
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **PHP ≥7.4** ou une version compatible avec Laravel 11
+- **Composer** (gestionnaire de dépendances PHP)
+- **Node.js ≥14.x** et **npm** (pour compiler les assets frontend)
+- **Base de données** (MySQL, MariaDB ou autre)
+- **Git** (pour la gestion de versions)
+- **Serveur Web** comme Apache ou Nginx
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Installation et initialisation
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Suivez les étapes ci-dessous pour configurer le projet sur votre machine locale.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### **1. Cloner le dépôt**
 
-## Laravel Sponsors
+Clonez le dépôt à partir de votre serveur Git :
+```bash
+git clone <URL_DU_DEPOT>
+cd agriculture-connectee
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### **2. Installer les dépendances PHP**
 
-### Premium Partners
+Utilisez Composer pour installer les dépendances Laravel :
+```bash
+composer install
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### **3. Configurer le fichier `.env`**
 
-## Contributing
+Copiez le fichier d'environnement exemple et modifiez-le :
+```bash
+cp .env.example .env
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Ensuite, ouvrez le fichier `.env` et configurez les paramètres suivants :
+```env
+APP_NAME=AgricultureConnectee
+APP_ENV=local
+APP_KEY=base64:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+APP_DEBUG=true
+APP_URL=http://localhost
 
-## Code of Conduct
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=agriculture_connectee
+DB_USERNAME=root
+DB_PASSWORD=secret
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+BROADCAST_DRIVER=log
+CACHE_DRIVER=file
+QUEUE_CONNECTION=sync
+SESSION_DRIVER=file
+SESSION_LIFETIME=120
+```
+Générez la clé de l'application :
+```bash
+php artisan key:generate
+```
 
-## Security Vulnerabilities
+### **4. Configurer la base de données**
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Créez une base de données MySQL (ou autre) qui correspond au nom configuré dans `.env` (exemple : `agriculture_connectee`).
 
-## License
+Puis exécutez les migrations pour créer les tables :
+```bash
+php artisan migrate
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Optionnel : Vous pouvez exécuter les seeders si le projet en contient pour insérer des données initiales :
+```bash
+php artisan db:seed
+```
+
+### **5. Installer les dépendances frontend**
+
+Installez les dépendances Node.js :
+```bash
+npm install
+```
+
+Compilez les assets frontend :
+```bash
+npm run dev
+```
+
+### **6. Lancer le serveur de développement**
+
+Démarrez le serveur Laravel local :
+```bash
+php artisan serve
+```
+Le projet sera accessible à l'adresse : [http://localhost:8000](http://localhost:8000)
+
+---
+
+## Fonctionnalités principales
+
+- **Gestion des utilisateurs** : Création, connexion, et authentification à deux facteurs (2FA).
+- **Tableau de bord** : Visualisation des projets et des données des capteurs.
+- **Gestion des alertes** : Notification en temps réel des alertes critiques.
+- **Gestion des projets** : Création, modification, et suppression de projets.
+- **Données des capteurs** : Simulation des données de capteurs via des APIs.
+
+---
+
+## Commandes utiles
+
+- **Vider le cache** :
+  ```bash
+  php artisan cache:clear
+  ```
+- **Vider le cache de configuration** :
+  ```bash
+  php artisan config:clear
+  ```
+- **Exécuter les tests** :
+  ```bash
+  php artisan test
+  ```
+
+---
+
+## Simuler les données des capteurs
+
+Un endpoint API est prévu pour générer des données simulées de capteurs :
+
+- **Route API** : `/api/simulate-data`
+- **Exemple de réponse** :
+  ```json
+  {
+      "temperature": 24,
+      "humidity": 56,
+      "soilMoisture": 32
+  }
+  ```
+Utilisez un client API comme Postman ou Curl pour tester ce service.
+
+---
+
+## Technologies utilisées
+
+- **Laravel 11**
+- **Laravel Blade** (frontend)
+- **MySQL** (base de données)
+- **Node.js** (compilation des assets)
+- **Pusher** ou Laravel Echo (notifications temps réel)
+- **Chart.js** (visualisation des graphiques)
+
+---
+
+## Contribution
+
+1. Forkez le dépôt.
+2. Créez une branche pour votre fonctionnalité :
+   ```bash
+   git checkout -b nouvelle-fonctionnalite
+   ```
+3. Commitez vos modifications :
+   ```bash
+   git commit -m "Ajout d'une nouvelle fonctionnalité"
+   ```
+4. Poussez vers votre dépôt :
+   ```bash
+   git push origin nouvelle-fonctionnalite
+   ```
+5. Créez une Pull Request.
+
+---
+
+## Licence
+
+Ce projet est sous licence [MIT](https://opensource.org/licenses/MIT).
+
