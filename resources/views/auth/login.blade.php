@@ -4,12 +4,11 @@
 <div class="grid">
     <!--Sub container-->
     <div class="bg-white flex flex-col mx-auto items-center rounded-xl my-16 p-5 space-y-2 w-96">
-        <!--Nom-->
-        <h1 class="inline-block font-bold text-2xl text-green-600">Saint claire</h1>
-        
+
+
         <!--LOGO-->
         <div class="inline-block w-32 h-32 py-14 bg-green-500 font-bold text-white text-center rounded-full">
-            LOGO
+            Agri Connect
         </div>
 
         <!--Mot de bienvenue-->
@@ -33,7 +32,7 @@
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
                     <input id="email"
-                        class="block text-sm border-green-200 rounded mt-1 w-full focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
+                        class="block text-sm border-green-200 rounded-lg mt-1 w-full focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
                         type="email" name="email" required autofocus />
                 </div>
 
@@ -41,16 +40,26 @@
                 <div class="mt-4">
                     <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
                     <input id="password"
-                        class="block text-sm border-green-200 rounded mt-1 w-full focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
+                        class="block text-sm border-green-200 rounded-lg mt-1 w-full focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
                         type="password" name="password" required />
                 </div>
-
+                
+                <div class="block mt-4">
+                        <label for="remember_me" class="inline-flex items-center">
+                            <input id="remember_me" type="checkbox"
+                                   class="rounded border-gray-300 text-green-600 shadow-sm focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
+                                   name="remember">
+                            <span class="ml-2 text-sm"> Remember me</span>
+                        </label>
+                </div>
                 <!-- Forgot Password -->
                 <div>
                     <a class="text-sm inline-block text-green-500 hover:underline" href="#">
                         Mot de passe oublié ?
                     </a>
                 </div>
+
+                
 
                 <!-- Login button submit -->
                 <button type="submit"
@@ -59,13 +68,19 @@
                 </button>
 
                 <!-- Sign up link -->
-                <div class="flex flex-col items-center justify-end mt-5">
+                <!-- <div class="flex flex-col items-center justify-end mt-5">
                     <p class="text-sm">Vous n'avez pas encore de compte ?</p>
                     <a class="block transition inline-block text-sm mt-2 p-1.5 bg-green-600 rounded text-white hover:-translate-y-0.5 hover:scale-110 hover:font-bold"
                        href="#">
                         Cliquez ici
                     </a>
-                </div>
+                </div> -->
+                <div class="card-footer text-center pt-0 px-lg-2 px-1">
+                            <p class="mb-4 text-sm mx-auto">
+                            Vous n'avez pas encore de compte ?
+                                <a href="#" class="text-sm inline-block text-green-500 hover:underline"> Creer un compte</a>
+                            </p>
+                        </div>
             </form>
         </div>
     </div>

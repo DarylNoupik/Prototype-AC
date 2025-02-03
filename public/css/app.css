@@ -1442,7 +1442,8 @@ select {
   background-color: rgb(238 242 255 / var(--tw-bg-opacity));
 }
 .bg-serre2 {
-  background-image: url(/images/serre2.jpg?06d80be8a9c9e794f73434e82eb47d27);
+  /* background-image: url(/images/serre2.jpg?06d80be8a9c9e794f73434e82eb47d27); */
+  background-image: url(/images/iStock-1429073633.jpg?06d80be8a9c9e794f73434e82eb47d27);
 }
 .bg-cover {
   background-size: cover;
