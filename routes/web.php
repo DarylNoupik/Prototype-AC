@@ -4,7 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view("culture.culture"); 
+    return view("projets.projet"); 
 });
 
 Route::get('/dashboard', function () {
