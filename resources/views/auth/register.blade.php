@@ -12,15 +12,30 @@
             <h3 class="text-gray-800 font-bold text-xl mb-1">Bienvenu sur l'appli !</h3>
             <p class="text-sm font-normal text-gray-600 mb-7">Pas encore de compte ? Enregistrez-vous !</p>
 
+             <!-- Validation Errors -->
+             <div class="w-5/6 text-sm">
+                <hr class="border-green-100">
+                @if ($errors->any())
+                    <div class="text-red-500">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+            </div>
+
             <!-- Formulaire -->
             <div class="w-5/6">
-                <form method="POST" action="#">
-                    <!-- Name -->
-                    <div class="mt-2">
+                <form method="POST" action="{{ route('register') }}">
+                @csrf
+                  <!-- Name -->
+                  <div class="mt-2">
                         <label for="name" class="block text-gray-700">Nom d'utilisateur</label>
                         <input id="name"
                                class="text-sm block border-green-200 rounded-lg mt-1 w-full focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-                               type="text" name="name" required autofocus/>
+                               type="text" name="name" value="{{ old('name') }}" required autofocus/>
                     </div>
 
                     <!-- Email Address -->
@@ -28,7 +43,7 @@
                         <label for="email" class="block text-gray-700">Email</label>
                         <input id="email"
                                class="text-sm block border-green-200 rounded-lg mt-1 w-full focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-                               type="email" name="email" required/>
+                               type="email" name="email" value="{{ old('email') }}" required/>
                     </div>
 
                     <!-- Password -->
@@ -53,19 +68,11 @@
                         S'enregistrer
                     </button>
 
-                    <!-- Already have an account -->
-                    <!-- <div class="flex flex-col items-center justify-end mt-5">
-                        <label class="text-gray-700">Vous avez déjà un compte ?</label>
-                        <a class="block transition inline-block text-sm mt-2 p-1.5 bg-green-600 rounded text-white hover:-translate-y-0.5 hover:scale-110 hover:font-bold"
-                           href="#">
-                            Cliquez ici
-                        </a>
-                    </div> -->
 
                     <div class="card-footer text-center pt-0 px-lg-2 px-1">
                             <p class="mb-4 text-sm mx-auto">
                             Vous avez déjà un compte ?
-                                <a href="#" class="text-sm inline-block text-green-500 hover:underline"> Se Connecter</a>
+                                <a href="{{ route('login') }}" class="text-sm inline-block text-green-500 hover:underline"> Se Connecter</a>
                             </p>
                         </div>
                 </form>

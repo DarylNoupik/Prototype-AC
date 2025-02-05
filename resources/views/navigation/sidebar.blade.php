@@ -10,7 +10,7 @@
     <!-- Sidebar Navigation -->
     <ul class="nav nav-pills flex-column mb-auto w-100">
         <li class="nav-item">
-            <a href="#dashboard" class="nav-link sidebar-btn">
+            <a href="{{route('dashboard')}}" class="nav-link sidebar-btn">
                 <i class="bi bi-house-door-fill"></i>
                 Tableau de bord
             </a>
@@ -18,8 +18,8 @@
 
         @if($role == 'admin')
         <li><a href="#admin-section" class="nav-link sidebar-btn"><i class="bi bi-bell-fill"></i> Journal des Alertes</a></li>
-        <li><a href="#admin-section" class="nav-link sidebar-btn"><i class="bi bi-basket-fill"></i> Liste des cultures</a></li>
-        <li><a href="#admin-section" class="nav-link sidebar-btn"><i class="bi bi-bag-fill"></i> Liste des projets</a></li>
+        <li><a href="{{ route('cultures.index') }}" class="nav-link sidebar-btn"><i class="bi bi-basket-fill"></i> Liste des cultures</a></li>
+        <li><a href="{{ route('projects.index') }}" class="nav-link sidebar-btn"><i class="bi bi-bag-fill"></i> Liste des projets</a></li>
         <li><a href="#admin-section" class="nav-link sidebar-btn"><i class="bi bi-globe-europe-africa"></i> Zones Géographiques</a></li>
         <li><a href="#admin-section" class="nav-link sidebar-btn"><i class="bi bi-people-fill"></i> Gestion des utilisateurs</a></li>
         @endif
@@ -40,7 +40,10 @@
         </a>
         <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
             <li><a class="dropdown-item" href="#">Profil</a></li>
-            <li><a class="dropdown-item" href="#">Déconnexion</a></li>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="dropdown-item">Déconnexion</button>
+            </form>
         </ul>
     </div>
 </div>

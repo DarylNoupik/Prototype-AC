@@ -11,6 +11,20 @@
             Agri Connect
         </div>
 
+         <!-- Validation Errors -->
+         <div class="w-5/6 text-sm">
+                <hr class="border-green-100">
+                @if ($errors->any())
+                    <div class="text-red-500">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+            </div>
+
         <!--Mot de bienvenue-->
         <br>
         <h3 class="text-gray-800 font-bold text-xl mb-1">Bienvenue sur l'appli !</h3>
@@ -27,7 +41,8 @@
 
         <!--Formulaire-->
         <div class="w-5/6">
-            <form method="POST" action="#">
+            <form method="POST"  action="{{ route('login') }}">
+             @csrf
                 <!-- Email Address -->
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
@@ -54,9 +69,11 @@
                 </div>
                 <!-- Forgot Password -->
                 <div>
-                    <a class="text-sm inline-block text-green-500 hover:underline" href="#">
-                        Mot de passe oublié ?
-                    </a>
+                @if (Route::has('password.request'))
+                            <a class="text-sm inline-block text-green-500 hover:underline" href="{{ route('password.request') }}">
+                                Mot de passe oublié ?
+                            </a>
+                @endif
                 </div>
 
                 
@@ -78,7 +95,7 @@
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                             <p class="mb-4 text-sm mx-auto">
                             Vous n'avez pas encore de compte ?
-                                <a href="#" class="text-sm inline-block text-green-500 hover:underline"> Creer un compte</a>
+                                <a href="{{ route('register') }}" class="text-sm inline-block text-green-500 hover:underline"> Creer un compte</a>
                             </p>
                         </div>
             </form>
