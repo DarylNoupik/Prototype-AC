@@ -3,11 +3,11 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\AppController;
-use App\Http\Controllers\{ProjectController, CultureController, AlertController, SiteController, TeamController};
+use App\Http\Controllers\{ProjectController, CultureController, AlertController, SiteController, TeamController,UserController};
 use Illuminate\Support\Facades\Route;
 
 Route::get('/test', function () {
-    return view("projets.projet"); 
+    return view("Users.user"); 
 });
 
 Route::get('/', [AuthenticatedSessionController::class, 'create'])
@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::apiResource('alerts', AlertController::class);
     Route::apiResource('sites', SiteController::class);
     Route::apiResource('teams', TeamController::class);
+    Route::apiResource('users', UserController::class);
 });
 
 require __DIR__.'/auth.php';

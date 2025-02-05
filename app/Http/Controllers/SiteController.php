@@ -9,7 +9,8 @@ class SiteController extends Controller
 {
     public function index()
     {
-        return Site::all();
+        $sites = Site::all();
+        return view('sites.index',compact('sites'));
     }
 
     public function store(Request $request)

@@ -7,7 +7,7 @@
     <div class=" container mt-5">
         <!-- Titre -->
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="text-success fw-bold">Gestion des Cultures</h1>
+            <h1 class="text-success fw-bold">Gestion des Sites Géeographiques</h1>
           
         </div>
 
@@ -17,10 +17,10 @@
             <span class="input-group-text" id="search-icon">
                 <i class="bi bi-search"></i> <!-- Icône de loupe Bootstrap -->
             </span>
-            <input type="text" class="form-control" id="searchBar" placeholder="Rechercher une culture">
+            <input type="text" class="form-control" id="searchBar" placeholder="Rechercher un site">
         </div>
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addCultureModal">
-                <i class="bi bi-plus-lg"></i> Ajouter une Culture
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addSiteModal">
+                <i class="bi bi-plus-lg"></i> Ajouter un site
             </button>
     </div>
 
@@ -28,51 +28,45 @@
     <table class="table table-striped" id="culturesTable">
         <thead>
             <tr>
-                <th>Nom de la Culture</th>
-                <th>Température minimale supportée</th>
-                <th>Température maximale supportée</th>
-                <th>Luminosité minimale supportée</th>
-                <th>Luminosité maximale supportée</th>
-                <th>Humidité minimale supportée</th>
-                <th>Humidité maximale supportée</th>
+                <th>nom</th>
+                <th>pays</th>
+                <th>région</th>
+                <th>ville</th>
+                <th>temperature moyenne</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody id="culturesList">
             <tr>
-                <td>Coton</td>
+                <td>site 1</td>
+                <td> cameroun</td>
+                <td> littorale</td>
+                <td> Douala</td>
                 <td> 10 °C</td>
-                <td> 10 °C</td>
-                <td> 10 Lux</td>
-                <td> 10 Lux</td>
-                <td> 10 g/m</td>
-                <td> 10 g/m</td>
                 <td>
                 @if($role == 'user')
-                    <i class="bi bi-eye text-primary action-icon tabi" data-bs-toggle="modal" data-bs-target="#viewCultureModal" title="Voir"></i>
+                    <i class="bi bi-eye text-primary action-icon tabi" data-bs-toggle="modal" data-bs-target="#viewSiteModal" title="Voir"></i>
                 @endif
                 @if($role == 'admin')
-                    <i class="bi bi-eye text-primary action-icon tabi" data-bs-toggle="modal" data-bs-target="#viewCultureModal" title="Voir"></i>
-                    <i class="bi bi-pencil text-success action-icon tabi" data-bs-toggle="modal" data-bs-target="#editCultureModal" title="Modifier"></i>
+                    <i class="bi bi-eye text-primary action-icon tabi" data-bs-toggle="modal" data-bs-target="#viewSiteModal" title="Voir"></i>
+                    <i class="bi bi-pencil text-success action-icon tabi" data-bs-toggle="modal" data-bs-target="#editSiteModal" title="Modifier"></i>
                     <i class="bi bi-trash3 text-danger action-icon tabi" data-bs-toggle="modal" title="Supprimer"></i>
                 @endif
                 </td>
             </tr>
             <tr>
-                <td>Maïs</td>
+            <td>site 1</td>
+                <td> cameroun</td>
+                <td> littorale</td>
+                <td> Douala</td>
                 <td> 10 °C</td>
-                <td> 10 °C</td>
-                <td> 10 Lux</td>
-                <td> 10 Lux</td>
-                <td> 10 g/m</td>
-                <td> 10 g/m</td>
                 <td>
                 @if($role == 'user')
-                    <i class="bi bi-eye text-primary action-icon tabi" data-bs-toggle="modal" data-bs-target="#viewCultureModal" title="Voir"></i>
+                    <i class="bi bi-eye text-primary action-icon tabi" data-bs-toggle="modal" data-bs-target="#viewSiteModal" title="Voir"></i>
                 @endif
                 @if($role == 'admin')
-                    <i class="bi bi-eye text-primary action-icon tabi" data-bs-toggle="modal" data-bs-target="#viewCultureModal" title="Voir"></i>
-                    <i class="bi bi-pencil text-success action-icon tabi" data-bs-toggle="modal" data-bs-target="#editCultureModal" title="Modifier"></i>
+                    <i class="bi bi-eye text-primary action-icon tabi" data-bs-toggle="modal" data-bs-target="#viewSiteModal" title="Voir"></i>
+                    <i class="bi bi-pencil text-success action-icon tabi" data-bs-toggle="modal" data-bs-target="#editSiteModal" title="Modifier"></i>
                     <i class="bi bi-trash3 text-danger action-icon tabi" data-bs-toggle="modal" title="Supprimer"></i>
                 @endif
                 </td>
@@ -83,69 +77,54 @@
 
 
     <!-- Modal Ajouter -->
-<div class="modal fade" id="addCultureModal" tabindex="-1" aria-labelledby="addCultureModalLabel" aria-hidden="true">
+<div class="modal fade" id="addSiteModal" tabindex="-1" aria-labelledby="addSiteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-success text-white">
-                <h5 class="modal-title" id="addCultureModalLabel">Ajouter une Culture</h5>
+                <h5 class="modal-title" id="addSiteModalLabel">Ajouter un site</h5>
             </div>
             <div class="modal-body">
-                <form id="cultureForm">
+                <form id="siteForm">
                     <div class="row">
                         <!-- Nom de la culture -->
                         <div class="col-md-6 mt-2">
-                            <label for="name" class="text-sm">Nom de la culture</label>
+                            <label for="name" class="text-sm">Nom du site</label>
                             <input id="name"
                                    class="text-sm block border-green-200 rounded mt-1 w-100 focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
                                    type="text" name="name" required autofocus/>
                         </div>
                         
-                        <!-- Température minimale supportée -->
-                        <div class="col-md-6 mt-2">
-                            <label for="Temp_min" class="text-sm">Température minimale supportée</label>
-                            <input id="Temp_min"
+                        <!-- pays -->
+                
+                         <div class="col-md-6 mt-2">
+                            <label for="pays" class="text-sm">pays</label>
+                            <input id="pays"
                                    class="text-sm block border-green-200 rounded mt-1 w-100 focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-                                   type="number" name="Temp_min" step="0.01" required/>
+                                   type="text" name="pays" required autofocus/>
                         </div>
                         
-                        <!-- Température maximale supportée -->
-                        <div class="col-md-6 mt-2">
-                            <label for="Temp_max" class="text-sm">Température maximale supportée</label>
-                            <input id="Temp_max"
+                         <!-- region -->
+                         <div class="col-md-6 mt-2">
+                            <label for="region" class="text-sm">Région</label>
+                            <input id="region"
                                    class="text-sm block border-green-200 rounded mt-1 w-100 focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-                                   type="number" name="Temp_max" step="0.01" required/>
+                                   type="text" name="region" required autofocus/>
                         </div>
-                        
-                        <!-- Luminosité minimale supportée -->
-                        <div class="col-md-6 mt-2">
-                            <label for="TCO2_min" class="text-sm">Luminosité minimale supportée</label>
-                            <input id="TCO2_min"
+
+                         <!-- ville -->
+                         <div class="col-md-6 mt-2">
+                            <label for="ville" class="text-sm">Ville</label>
+                            <input id="ville"
                                    class="text-sm block border-green-200 rounded mt-1 w-100 focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-                                   type="number" name="TCO2_min" step="0.01" required/>
+                                   type="text" name="ville" required autofocus/>
                         </div>
-                        
-                        <!-- Luminosité maximale supportée -->
+
+                        <!-- Température moyenne supportée -->
                         <div class="col-md-6 mt-2">
-                            <label for="TCO2_max" class="text-sm">Luminosité maximale supportée</label>
-                            <input id="TCO2_max"
+                            <label for="Temp_moy" class="text-sm">Température maximale supportée</label>
+                            <input id="Temp_moy"
                                    class="text-sm block border-green-200 rounded mt-1 w-100 focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-                                   type="number" name="TCO2_max" step="0.01" required/>
-                        </div>
-                        
-                        <!-- Humidité minimale supportée -->
-                        <div class="col-md-6 mt-2">
-                            <label for="vsH2O_min" class="text-sm">Humidité minimale supportée</label>
-                            <input id="vsH2O_min"
-                                   class="text-sm block border-green-200 rounded mt-1 w-100 focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-                                   type="number" name="vsH2O_min" step="0.01" required/>
-                        </div>
-                        
-                        <!-- Humidité maximale supportée -->
-                        <div class="col-md-6 mt-2">
-                            <label for="vsH2O_max" class="text-sm">Humidité maximale supportée</label>
-                            <input id="vsH2O_max"
-                                   class="text-sm block border-green-200 rounded mt-1 w-100 focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-                                   type="number" name="vsH2O_max" step="0.01" required/>
+                                   type="number" name="Temp_moy" step="0.01" required/>
                         </div>
                     </div>
 
@@ -164,71 +143,55 @@
 </div>
 
 
-
-<!-- Modal Modifier -->
-<div class="modal fade" id="editCultureModal" tabindex="-1" aria-labelledby="editCultureModalLabel" aria-hidden="true">
+    <!-- Modal Modifier -->
+<div class="modal fade" id="editSiteModal" tabindex="-1" aria-labelledby="editSiteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-success text-white">
-                <h5 class="modal-title" id="editCultureModalLabel">modifier une Culture</h5>
+                <h5 class="modal-title" id="editSiteModalLabel">Modifier un site</h5>
             </div>
             <div class="modal-body">
-                <form id="cultureForm">
+                <form id="siteForm">
                     <div class="row">
                         <!-- Nom de la culture -->
                         <div class="col-md-6 mt-2">
-                            <label for="name" class="text-sm">Nom de la culture</label>
+                            <label for="name" class="text-sm">Nom du site</label>
                             <input id="name"
                                    class="text-sm block border-green-200 rounded mt-1 w-100 focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
                                    type="text" name="name" required autofocus/>
                         </div>
                         
-                        <!-- Température minimale supportée -->
-                        <div class="col-md-6 mt-2">
-                            <label for="Temp_min" class="text-sm">Température minimale supportée</label>
-                            <input id="Temp_min"
+                        <!-- pays -->
+                
+                         <div class="col-md-6 mt-2">
+                            <label for="pays" class="text-sm">pays</label>
+                            <input id="pays"
                                    class="text-sm block border-green-200 rounded mt-1 w-100 focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-                                   type="number" name="Temp_min" step="0.01" required/>
+                                   type="text" name="pays" required autofocus/>
                         </div>
                         
-                        <!-- Température maximale supportée -->
-                        <div class="col-md-6 mt-2">
-                            <label for="Temp_max" class="text-sm">Température maximale supportée</label>
-                            <input id="Temp_max"
+                         <!-- region -->
+                         <div class="col-md-6 mt-2">
+                            <label for="region" class="text-sm">Région</label>
+                            <input id="region"
                                    class="text-sm block border-green-200 rounded mt-1 w-100 focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-                                   type="number" name="Temp_max" step="0.01" required/>
+                                   type="text" name="region" required autofocus/>
                         </div>
-                        
-                        <!-- Luminosité minimale supportée -->
-                        <div class="col-md-6 mt-2">
-                            <label for="TCO2_min" class="text-sm">Luminosité minimale supportée</label>
-                            <input id="TCO2_min"
+
+                         <!-- ville -->
+                         <div class="col-md-6 mt-2">
+                            <label for="ville" class="text-sm">Ville</label>
+                            <input id="ville"
                                    class="text-sm block border-green-200 rounded mt-1 w-100 focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-                                   type="number" name="TCO2_min" step="0.01" required/>
+                                   type="text" name="ville" required autofocus/>
                         </div>
-                        
-                        <!-- Luminosité maximale supportée -->
+
+                        <!-- Température moyenne supportée -->
                         <div class="col-md-6 mt-2">
-                            <label for="TCO2_max" class="text-sm">Luminosité maximale supportée</label>
-                            <input id="TCO2_max"
+                            <label for="Temp_moy" class="text-sm">Température maximale supportée</label>
+                            <input id="Temp_moy"
                                    class="text-sm block border-green-200 rounded mt-1 w-100 focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-                                   type="number" name="TCO2_max" step="0.01" required/>
-                        </div>
-                        
-                        <!-- Humidité minimale supportée -->
-                        <div class="col-md-6 mt-2">
-                            <label for="vsH2O_min" class="text-sm">Humidité minimale supportée</label>
-                            <input id="vsH2O_min"
-                                   class="text-sm block border-green-200 rounded mt-1 w-100 focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-                                   type="number" name="vsH2O_min" step="0.01" required/>
-                        </div>
-                        
-                        <!-- Humidité maximale supportée -->
-                        <div class="col-md-6 mt-2">
-                            <label for="vsH2O_max" class="text-sm">Humidité maximale supportée</label>
-                            <input id="vsH2O_max"
-                                   class="text-sm block border-green-200 rounded mt-1 w-100 focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-                                   type="number" name="vsH2O_max" step="0.01" required/>
+                                   type="number" name="Temp_moy" step="0.01" required/>
                         </div>
                     </div>
 
@@ -246,23 +209,20 @@
     </div>
 </div>
 
-
-    <!-- Modal Voir Culture -->
-    <div class="modal fade" id="viewCultureModal" tabindex="-1" aria-labelledby="viewCultureModalLabel" aria-hidden="true">
+    <!-- Modal Voir site-->
+    <div class="modal fade" id="viewSiteModal" tabindex="-1" aria-labelledby="viewSiteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-info text-white">
-                    <h5 class="modal-title" id="viewCultureModalLabel">Détails de la Culture</h5>
+                    <h5 class="modal-title" id="viewSiteModalLabel">Détails du Site</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-lg"></i></button>
                 </div>
                 <div class="modal-body">
-                    <p><strong>Nom de la culture:</strong> Coton</p>
-                    <p><strong>Température minimale supportée:</strong> 10 °C</p>
-                    <p><strong>Température maximale supportée:</strong> 10 °C</p>
-                    <p><strong>Luminosité minimale suppoetée:</strong> 10 Lux</p>
-                    <p><strong>Luminosité maximale suppoetée:</strong> 10 Lux</p>
-                    <p><strong>Humidité minimale suppoetée:</strong> 10 g/m</p>
-                    <p><strong>Humidité maximale suppoetée:</strong> 10 g/m</p>
+                    <p><strong>Nom du site:</strong> site 1</p>
+                    <p><strong>Pays:</strong> Cameroun</p>
+                    <p><strong>Region:</strong> Littoral</p>
+                    <p><strong>Ville:</strong> Douala</p>
+                    <p><strong>Temperature Moyenne:</strong> 10 °C</p>
                 </div>
             </div>
         </div>
@@ -272,7 +232,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
-<style>
+    <style>
         body {
             background-color: #f8f9fa;
         }
@@ -287,8 +247,7 @@
     padding: 20px;
 }
 
-
-
+/* Amélioration globale du tableau */
 .table-responsive {
     border-radius: 10px; /* Bords arrondis */
     overflow: hidden; /* Empêche les coins arrondis d’être coupés */
@@ -373,7 +332,7 @@
 .tabi{
     margin-left: 10px;
 }
-</style>
+    </style>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -383,4 +342,6 @@
         });
     });
 </script>
+
+
 </x-app-layout>
