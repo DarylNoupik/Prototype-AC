@@ -14,46 +14,65 @@ class CultureController extends Controller
         return view('cultures.index', compact('cultures')); 
     }
 
-     // Afficher le formulaire pour créer une nouvelle culture (vue create ou un autre que nom que tu veux)
-     public function create()
-     {
-         return view('cultures.create'); // Afficher le formulaire de création de culture
-     }
-
    // Enregistrer une nouvelle culture
    public function store(Request $request)
    {
-       $request->validate([
-           'name' => 'required|string|max:255',
-           'phase' => 'required|string|max:255',
-           'site_id' => 'required|exists:sites,id',
-       ]);
+        // Validation des données
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            //'phase' => 'required|string|max:255',
+            //'site_id' => 'required|exists:sites,id',
+            'temp_min' => 'nullable|numeric',
+            'temp_max' => 'nullable|numeric',
+            'tco2_min' => 'nullable|numeric',
+            'tco2_max' => 'nullable|numeric',
+            'vsh2o_min' => 'nullable|numeric',
+            'vsh2o_max' => 'nullable|numeric',
+        ]);
 
-       Culture::create($request->all());
-       return redirect()->route('cultures.index'); // Rediriger vers la liste des cultures
+        // Vérification des champs manquants
+        $missingFields = [];
+        foreach ($validatedData as $key => $value) {
+            if ($value === null) {
+                $missingFields[] = $key;
+            }
+        }
+
+        // Si des champs sont manquants, afficher un warning dans la session
+        if (!empty($missingFields)) {
+            session()->flash('warning', 'Attention : Les champs suivants sont manquants ou vides : ' . implode(', ', $missingFields));
+        }
+
+    //dd($request->all());
+    
+    // Création de la culture
+    Culture::create($request->only([
+        'name', 'temp_min', 'temp_max', 'tco2_min', 'tco2_max', 'vsh2o_min', 'vsh2o_max'
+    ]));
+    
+
+
+    // Redirection avec message de confirmation
+    return redirect()->back()->with('success', 'Culture ajoutée avec succès!');
    }
 
-    public function show(Culture $culture)
+    public function show($id)
     {
-        return view('cultures.show', compact('culture')); // Afficher une culture spécifique
+        $culture = Culture::findOrFail($id);
+        return response()->json($culture);
     }
 
-     // Afficher le formulaire pour éditer une culture (vue edit)
-     public function edit(Culture $culture)
-     {
-         return view('cultures.edit', compact('culture')); // Afficher le formulaire d'édition
-     }
- 
 
      public function update(Request $request, Culture $culture)
      {
          $culture->update($request->all());
-         return redirect()->route('cultures.show', $culture->id); // Rediriger vers les détails de la culture
+        // return redirect()->route('cultures.show', $culture->id); // Rediriger vers les détails de la culture
+         return redirect()->back()->with('success', 'Culture ' .$culture->name.' modifiée avec succès!');
      }
 
     public function destroy(Culture $culture)
     {
         $culture->delete();
-        return response()->json(['message' => 'Culture supprimée']);
+        return redirect()->back()->with('success', 'Culture supprimée  avec succès!');
     }
 }
