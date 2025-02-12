@@ -9,8 +9,17 @@ class Culture extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'phase', 'site_id'];
-
+    protected $fillable = [
+        'name',
+        'phase',
+        'site_id',
+        'temp_min',
+        'temp_max',
+        'tco2_min',
+        'tco2_max',
+        'vsh2o_min',
+        'vsh2o_max'
+    ];
     public function site()
     {
         return $this->belongsTo(Site::class);

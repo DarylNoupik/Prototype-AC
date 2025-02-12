@@ -13,13 +13,6 @@ class AlertController extends Controller
         return view('alerts.index', compact('alerts')); 
     }
 
-    // Afficher le formulaire pour créer une nouvelle alerte (vue create)
-    public function create()
-    {
-        return view('alerts.create');
-    }
-
-
     public function store(Request $request)
     {
         $request->validate([
