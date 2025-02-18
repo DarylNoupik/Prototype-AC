@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('description')->nullable();
+            $table->text('site_geo')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Relation avec l'utilisateur créateur
             $table->timestamps();
         });

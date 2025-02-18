@@ -3,10 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Services\GeolocalisationService;
 use Illuminate\Http\Request;
+
 
 class ProjectController extends Controller
 {
+
+
+    protected GeolocalisationService $geolocalisationService;
+
+    public function __construct(GeolocalisationService $geolocalisationService)
+    {
+        $this->geolocalisationService = $geolocalisationService;
+    }
+
+    public function search(string $query): JsonResponse
+    {
+        $result = $this->geolocalisationService->searchLocation(urlencode($query));
+        return response()->json($result);
+    }
+
     public function index()
     {
         $projects = Project::all();

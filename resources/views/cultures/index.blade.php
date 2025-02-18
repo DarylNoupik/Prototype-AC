@@ -73,7 +73,7 @@
                         <form action="{{ route('cultures.destroy', $culture->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette culture ?');">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-link p-0 " title="Supprimer">
+                            <button type="submit" class="btn btn-link p-0 bg-transparent" style="border: none; background: none; padding: 0;" title="Supprimer">
                                 <i class="bi bi-trash3 text-danger action-icon tabi"></i>
                             </button>
                         </form>
