@@ -17,7 +17,7 @@
         </li>
 
         @if($role == 'admin')
-        <li><a href="#admin-section" class="nav-link sidebar-btn"><i class="bi bi-bell-fill"></i> Journal des Alertes</a></li>
+        <li><a href="{{ route('alerts.index') }}" class="nav-link sidebar-btn"><i class="bi bi-bell-fill"></i> Journal des Alertes</a></li>
         <li><a href="{{ route('cultures.index') }}" class="nav-link sidebar-btn"><i class="bi bi-basket-fill"></i> Liste des cultures</a></li>
         <li><a href="{{ route('projects.index') }}" class="nav-link sidebar-btn"><i class="bi bi-bag-fill"></i> Liste des projets</a></li>
         <li><a href="{{ route('sites.index') }}" class="nav-link sidebar-btn"><i class="bi bi-globe-europe-africa"></i> Zones Géographiques</a></li>
@@ -26,7 +26,7 @@
 
         @if($role == 'user')
         <li><a href="#user-section" class="nav-link sidebar-btn"><i class="bi bi-people-fill"></i> User Section</a></li>
-        <li><a href="#user-section" class="nav-link sidebar-btn"><i class="bi bi-bell-fill"></i> Journal des Alertes</a></li>
+        <li><a href="#{{ route('alerts.index') }}" class="nav-link sidebar-btn"><i class="bi bi-bell-fill"></i> Journal des Alertes</a></li>
         <li><a href="#user-section" class="nav-link sidebar-btn"><i class="bi bi-basket-fill"></i> Liste des cultures</a></li>
         <li><a href="#user-section" class="nav-link sidebar-btn"><i class="bi bi-bag-fill"></i> Liste des projets</a></li>
         <li><a href="#user-section" class="nav-link sidebar-btn"><i class="bi bi-globe-europe-africa"></i> Zones Géographiques</a></li>
@@ -47,6 +47,8 @@
         </ul>
     </div>
 </div>
+
+
 
 <!-- Style intégré pour la sidebar -->
 <style>

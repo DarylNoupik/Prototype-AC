@@ -6,9 +6,9 @@ use App\Http\Controllers\AppController;
 use App\Http\Controllers\{ProjectController, CultureController, AlertController, SiteController, TeamController,UserController};
 use Illuminate\Support\Facades\Route;
 
-Route::get('/test', function () {
-    return view("Users.user"); 
-});
+// Route::get('/', function () {
+//     return view("alert.index"); 
+// });
 
 Route::get('/', [AuthenticatedSessionController::class, 'create'])
         ->name('login');

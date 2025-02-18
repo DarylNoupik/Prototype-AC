@@ -1,29 +1,31 @@
 <x-guest-layout>
-<div class="card shadow-lg p-4" style="max-width: 400px; width: 100%;">
-        <!-- Bouton Retour -->
-        <a href="javascript: history.go(-1)" class="btn btn-success btn-sm mb-3">
-            &larr; Retour
-        </a>
+    <x-auth-card>
+    <div class="mb-4 text-sm dark:text-gray-400">
+            <a href="javascript: history.go(-1)" class="block transition  focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50 ease-in-out delay-100 w-1/5 text-center bg-green-600 mt-1 py-2 rounded-lg text-white text-sm p-2 font-semibold mb-2 mx-auto">
+                {{ __("< Retour") }}
+            </a>
+            {{ __("Vous avez oublié votre mot de passe ? Aucun problème. Il suffit de nous communiquer votre adresse électronique et nous vous enverrons un lien de réinitialisation du mot de passe qui vous permettra d'en choisir un nouveau.") }}
+        </div>
+        <form >
 
-        <!-- Titre -->
-        <h2 class="text-center text-dark mb-3">Mot de passe oublié ?</h2>
+            <div class="grid gap-6">
+                <!-- Email Address -->
+                <div class="space-y-2">
+                    <label for="email" :value="Email">
+        
+                        <input id="email" class="block text-sm border-green-200 rounded mt-1 w-full focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50" type="email" name="email"
+                            :value="old('email')" required autofocus placeholder="{{ __('monadresse@mail.com') }}" />
+                </div>
 
-        <!-- Texte d'explication -->
-        <p class="text-muted text-center">
-            Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.
-        </p>
-
-        <!-- Formulaire -->
-        <form>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" id="email" class="form-control" placeholder="monadresse@mail.com" required>
+                <div>
+                    <button class="block transition focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50 ease-in-out delay-100 hover:-translate-y-0.5 hover:scale-110 block bg-green-600 mt-1 py-2 rounded-lg text-white text-sm p-2 font-semibold mb-2 mx-auto">
+                        {{ __("Recevoir le lien de réinitialisation du mot de passe") }}
+                    </button>
+                </div>
             </div>
-
-            <!-- Bouton Envoyer -->
-            <button type="submit" class="btn btn-success w-100">
-                Recevoir le lien de réinitialisation
-            </button>
         </form>
+    </x-auth-card>
+    <div class="h-96">
+        &ensp;
     </div>
 </x-guest-layout>

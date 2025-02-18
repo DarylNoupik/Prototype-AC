@@ -105,7 +105,7 @@
                     <i class="bi bi-x-circle"></i>
                 </button>
             </div>
-
+            
             <!-- Body du modal -->
             <div class="modal-body">
                 <form>
