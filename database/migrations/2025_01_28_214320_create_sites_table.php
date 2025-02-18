@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('sites', function (Blueprint $table) {
             $table->id();
-            $table->string('location'); // Localisation du site
-            $table->text('description')->nullable(); // Description du site
+            $table->string('name'); 
+            $table->string('pays');
+            $table->string('region');
+            $table->string('ville');
+            $table->decimal('Temp_moy', 5, 2);
             $table->timestamps();
         });
     }

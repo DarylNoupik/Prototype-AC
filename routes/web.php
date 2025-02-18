@@ -33,4 +33,6 @@ Route::middleware('auth')->group(function () {
     Route::apiResource('users', UserController::class);
 });
 
+Route::get('/search/{query}', [ProjectController::class, 'search']);
+
 require __DIR__.'/auth.php';
