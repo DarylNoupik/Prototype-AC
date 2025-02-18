@@ -243,6 +243,69 @@
     </div>
 </div>
 
+<div class="modal fade" id="AjoutBlocModal" tabindex="-1" aria-labelledby="AjoutBlocModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Header du modal -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="AjoutBlocModalLabel">Ajout d'un bloc</h5>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="bi bi-x-circle"></i>
+                </button>
+            </div>
+
+            <!-- Body du modal -->
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="nomBloc" class="form-label">Nom du bloc</label>
+                        <input type="text" class="form-control" id="nomBloc" value="culture de riz Bloc 1">
+                    </div>
+
+                     <!-- Temperature courante du bloc -->
+                     <div class="mb-3">
+                            <label for="temperature" class="form-label"> Temperature courante du bloc </label>
+                            <input id="temperature"
+                                   class="form-control  border-green-200 rounded mt-1 w-full focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
+                                   type="number" step="0.01" required autofocus/>
+                        </div>
+                        <!-- Humidite  courante du bloc -->
+                        <div class="mb-3">
+                            <label for="humidite" class="form-label"> Humidite courante du bloc </label>
+                            <input id="humidite" 
+                                   class="form-control  border-green-200 rounded mt-1 w-full focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
+                                   type="number" step="0.01" required autofocus/>
+                        </div>
+                        <!-- Luminosite courante du bloc -->
+                        <div class="mt-2 w-2/5 mx-auto">
+                            <label for="luminosite" class="form-label"> Luminosite courante du bloc </label>
+                            <input id="luminosite"
+                                   class="form-control  border-green-200 rounded mt-1 w-full foc    us:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
+                                   type="number" step="0.01" required autofocus/>
+                        </div>
+
+                    <div class="mb-3">
+                        <label for="cultureBloc" class="form-label">Culture présente dans ce bloc</label>
+                        <select class="form-select" id="cultureBloc">
+                            <option selected>riz</option>
+                            <option>maïs</option>
+                            <option>blé</option>
+                        </select>
+                    </div>
+
+                    <!-- Bouton de modification -->
+                    <button type="submit" class="btn btn-green">ajouter ce bloc</button>
+                </form>
+            </div>
+
+            <!-- Footer du modal -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <style>
        body {
             background-color: #f4f5f7;
