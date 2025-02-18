@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('site_geo')->nullable();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Relation avec l'utilisateur créateur
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('site_id')->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });
     }

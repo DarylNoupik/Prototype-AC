@@ -16,68 +16,114 @@
         </button>
     </div>
 
+     <!-- Messages de session -->
+     @if (session('warning'))
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ session('warning') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            @endif
+
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            @endif
+
+
     <!-- Informations du projet améliorées -->
+     @foreach ( $projects as $project)
+         
+    
     <div class="project-info-card">
-        <h3>🌱 Culture de Riz</h3>
+        <h3>🌱 {{ $project->name }}</h3>
         <div class="info-grid">
-            <div class="project-info"><i class="bi bi-person-circle"></i> <strong>Créé par :</strong> KMI</div>
-            <div class="project-info"><i class="bi bi-calendar"></i> <strong>Créé le :</strong> 04-02-2025</div>
-            <div class="project-info"><i class="bi bi-geo-alt"></i> <strong>Pays :</strong> Cameroun</div>
-            <div class="project-info"><i class="bi bi-map"></i> <strong>Région :</strong> Littoral</div>
-            <div class="project-info"><i class="bi bi-building"></i> <strong>Ville :</strong> Douala</div>
-            <div class="project-info"><i class="bi bi-tree"></i> <strong>Site géographique :</strong> Beedi</div>
+            <div class="project-info"><i class="bi bi-person-circle"></i> <strong>Créé par :</strong> {{ $project->user->name }}</div>
+            <div class="project-info"><i class="bi bi-calendar"></i> <strong>Créé le :</strong> {{ $project->created_at->format('d/m/Y') }}</div>
+            <div class="project-info"><i class="bi bi-geo-alt"></i> <strong>Pays :</strong> {{ $project->site->pays }}</div>
+            <div class="project-info"><i class="bi bi-map"></i> <strong>Région :</strong> {{ $project->site->region }}</div>
+            <div class="project-info"><i class="bi bi-building"></i> <strong>Ville :</strong> {{ $project->site->ville }}</div>
+            <div class="project-info"><i class="bi bi-tree"></i> <strong>Site géographique :</strong> {{ $project->site->name }}</div>
             <div class="project-info"><i class="bi bi-grid"></i> <strong>Nombre de blocs :</strong> 3</div>
         </div>
         <!-- Liste des blocs sous forme de cartes -->
     <div class="row mt-4">
-        <!-- Bloc 1 -->
-        <div class="col-md-4 mb-4">
-            <div class="project-card">
-                <div class="card-header">Bloc 1 - Riz</div>
-                <div class="card-body">
-                    <p>🌡️ <b>Température ambiante :</b> 25°C</p>
-                    <p>💧 <b>Humidité courante :</b> 60%</p>
-                    <p>☀️ <b>Luminosité courante :</b> 50Lux</p>
-                </div>
-                <div class="card-footer">
-                    <button class="btn btn-green btn-custom" data-bs-toggle="modal" data-bs-target="#modifBlocModal"><i class="bi bi-pencil-square"></i> Modifier</button>
-                    <button class="btn btn-red btn-custom"><i class="bi bi-trash"></i> Supprimer</button>
-                </div>
-            </div>
-        </div>
+             @foreach ($project->cultures as $culture)
+                        <div class="col-md-4 mb-4">
+                            <div class="project-card">
+                                <div class="card-header">Bloc - {{ $culture->name }}</div>
+                                <div class="card-body">
+                                    <p>🌡️ <b>Température ambiante :</b> {{ rand(20, 30) }}°C</p>
+                                    <p>💧 <b>Humidité courante :</b> {{ rand(50, 70) }}%</p>
+                                    <p>☀️ <b>Luminosité courante :</b> {{ rand(40, 70) }} Lux</p>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn btn-green btn-custom" data-bs-toggle="modal" data-bs-target="#modifBlocModal-{{$culture->id}}">
+                                        <i class="bi bi-pencil-square"></i> Modifier
+                                    </button>
+                                    <button class="btn btn-red btn-custom">
+                                        <i class="bi bi-trash"></i> Supprimer
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
 
-        <!-- Bloc 2 -->
-        <div class="col-md-4 mb-4">
-            <div class="project-card">
-                <div class="card-header">Bloc 2 - Maïs</div>
-                <div class="card-body">
-                    <p>🌡️ <b>Température ambiante :</b> 22°C</p>
-                    <p>💧 <b>Humidité courante :</b> 55%</p>
-                    <p>☀️ <b>Luminosité courante :</b> 60Lux</p>
-                </div>
-                <div class="card-footer">
-                    <button class="btn btn-green btn-custom" data-bs-toggle="modal" data-bs-target="#modifBlocModal"><i class="bi bi-pencil-square"></i> Modifier</button>
-                    <button class="btn btn-red btn-custom" ><i class="bi bi-trash"></i> Supprimer</button>
-                </div>
-            </div>
-        </div>
+                        <!-- Modal modifier un bloc -->
+                    <div class="modal fade" id="modifBlocModal-{{$culture->id}}"  tabindex="-1" aria-labelledby="modifBlocModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Header du modal -->
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modifBlocModalLabel">Modification du bloc <strong>{{ $culture->name }}</strong></h5>
+                                    <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close">
+                                        <i class="bi bi-x-circle"></i>
+                                    </button>
+                                </div>
 
+                                <!-- Body du modal -->
+                                <div class="modal-body">
+                                    <form>
+                                    <div class="mb-3">
+                                        <label for="NomBloc-{{ $culture->id }}" class="form-label">Nom du bloc</label>
+                                        <input type="text" class="form-control" name="Name" id="NomBloc-{{ $culture->id }}" value="{{ $culture->name }}" required>
+                                    </div>
 
-                <!-- Bloc 2 -->
-                <div class="col-md-4 mb-4">
-            <div class="project-card">
-                <div class="card-header">Bloc 2 - Maïs</div>
-                <div class="card-body">
-                    <p>🌡️ <b>Température ambiante :</b> 22°C</p>
-                    <p>💧 <b>Humidité courante :</b> 55%</p>
-                    <p>☀️ <b>Luminosité courante :</b> 60Lux</p>
-                </div>
-                <div class="card-footer">
-                    <button class="btn btn-green btn-custom"data-bs-toggle="modal" data-bs-target="#modifBlocModal"><i class="bi bi-pencil-square"></i> Modifier</button>
-                    <button class="btn btn-red btn-custom"><i class="bi bi-trash"></i> Supprimer</button>
-                </div>
-            </div>
-        </div>
+                                    <div class="mb-3">
+                                        <label for="CultureBloc-{{ $culture->id }}" class="form-label">Culture présente dans ce bloc</label>
+                                        <select class="form-select" name="culture_Id" id="CultureBloc-{{ $culture->id }}" required>
+                                            @foreach ($cultures as $AvailableCulture)
+                                                <option value="{{ $AvailableCulture->id }}" {{ $AvailableCulture->id == $culture->id ? 'selected' : '' }}>
+                                                    {{ $AvailableCulture->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="ProjetBloc-{{ $culture->id }}" class="form-label">Projet contenant ce bloc</label>
+                                        <select class="form-select" name="Project_Id" id="ProjetBloc-{{ $culture->id }}" required>
+                                            @foreach ($projects as $AvailableProject)
+                                                <option value="{{ $AvailableProject->id }}" {{ $AvailableProject->id == $project->id ? 'selected' : '' }}>
+                                                    {{ $AvailableProject->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                        <!-- Bouton de modification -->
+                                        <button type="submit" class="btn btn-modal-green">Modifier ce bloc</button>
+                                    </form>
+                                </div>
+
+                                <!-- Footer du modal -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">Fermer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            @endforeach
     </div>
 
     </div>
@@ -91,10 +137,9 @@
     </div>
 </div>
 </div>
-
+@endforeach
 
 <!-- Modal pour ajouter un projet-->
-
 <div class="modal fade" id="ajoutProjetModal" tabindex="-1" aria-labelledby="ajoutProjetModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -108,29 +153,33 @@
 
             <!-- Body du modal -->
             <div class="modal-body">
-                <form>
+                <form method="POST" action="{{ route('projects.store') }}">
+                    @csrf  <!-- Sécurité Laravel -->
+
                     <div class="mb-3">
                         <label for="nomProjet" class="form-label">Nom du projet</label>
-                        <input type="text" class="form-control" id="nomProjet" placeholder="Entrez le nom du projet">
+                        <input type="text" name="name" class="form-control" id="nomProjet" placeholder="Entrez le nom du projet" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="cultureProjet" class="form-label">Sélectionnez une culture 
                             <small class="text-muted">(qui sera présente dans le premier bloc de ce projet)</small>
                         </label>
-                        <select class="form-select" id="cultureProjet">
-                            <option selected>riz</option>
-                            <option>maïs</option>
-                            <option>blé</option>
+                        <select name="culture_id" class="form-select" id="cultureProjet" required>
+                            <option value="" selected disabled>Veuillez choisir...</option>
+                            @foreach ($cultures as $culture)
+                                <option value="{{ $culture->id }}">{{ $culture->name }}</option>
+                            @endforeach
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="siteGeographique" class="form-label">Sélectionnez un site géographique</label>
-                        <select class="form-select" id="siteGeographique">
-                            <option selected>Beedi</option>
-                            <option>Yaoundé</option>
-                            <option>Douala</option>
+                        <select name="site_id" class="form-select" id="siteGeographique">
+                            <option value="" selected disabled>Veuillez choisir...</option>
+                            @foreach ($sites as $site)
+                                <option value="{{ $site->id }}">{{ $site->name }}</option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -147,56 +196,8 @@
     </div>
 </div>
 
-<!-- Modal modifier un bloc -->
-<div class="modal fade" id="modifBlocModal" tabindex="-1" aria-labelledby="modifBlocModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- Header du modal -->
-            <div class="modal-header">
-                <h5 class="modal-title" id="modifBlocModalLabel">Modification du bloc <strong>culture de riz Bloc 1</strong></h5>
-                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close">
-                    <i class="bi bi-x-circle"></i>
-                </button>
-            </div>
 
-            <!-- Body du modal -->
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="nomBloc" class="form-label">Nom du bloc</label>
-                        <input type="text" class="form-control" id="nomBloc" value="culture de riz Bloc 1">
-                    </div>
 
-                    <div class="mb-3">
-                        <label for="cultureBloc" class="form-label">Culture présente dans ce bloc</label>
-                        <select class="form-select" id="cultureBloc">
-                            <option selected>riz</option>
-                            <option>maïs</option>
-                            <option>blé</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="projetBloc" class="form-label">Projet contenant ce bloc</label>
-                        <select class="form-select" id="projetBloc">
-                            <option selected>culture de riz</option>
-                            <option>culture de maïs</option>
-                            <option>culture de blé</option>
-                        </select>
-                    </div>
-
-                    <!-- Bouton de modification -->
-                    <button type="submit" class="btn btn-modal-green">Modifier ce bloc</button>
-                </form>
-            </div>
-
-            <!-- Footer du modal -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">Fermer</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 <!-- Modal modifier un projet -->

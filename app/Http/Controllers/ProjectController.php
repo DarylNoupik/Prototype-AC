@@ -1,9 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Project;
-use App\Services\GeolocalisationService;
+use Illuminate\Support\Facades\Auth;
+use App\Models\{Project,Site,Culture};
 use Illuminate\Http\Request;
 
 
@@ -11,34 +10,37 @@ class ProjectController extends Controller
 {
 
 
-    protected GeolocalisationService $geolocalisationService;
-
-    public function __construct(GeolocalisationService $geolocalisationService)
-    {
-        $this->geolocalisationService = $geolocalisationService;
-    }
-
-    public function search(string $query): JsonResponse
-    {
-        $result = $this->geolocalisationService->searchLocation(urlencode($query));
-        return response()->json($result);
-    }
-
     public function index()
     {
-        $projects = Project::all();
-        return view('projets.index',compact('projects'));
+        $cultures= Culture::all();
+        $sites = Site::all();
+        $projects = Project::with(['site', 'user','cultures'])->paginate(5);
+        return view('projets.index',compact(['projects','sites','cultures']));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'user_id' => 'required|exists:users,id',
+            'site_id' => 'nullable|exists:sites,id',
+            'culture_id' => 'nullable|exists:cultures,id', // Une seule culture
         ]);
 
-        return Project::create($request->all());
+        //dd($request->all());
+    
+        // Création du projet avec l'utilisateur connecté
+        $project = Project::create([
+            'name' => $validatedData['name'],
+            'site_id' => $validatedData['site_id'] ?? null,
+            'user_id' => Auth::id(), // Récupération de l'utilisateur connecté
+        ]);
+    
+        // Attacher la culture si elle est fournie
+        if ($request->filled('culture_id')) {
+            $project->cultures()->attach($request->culture_id);
+        }
+
+    return redirect()->route('projects.index')->with('success', 'Projet créé avec succès.');
     }
 
     public function show(Project $project)
