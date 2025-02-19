@@ -9,7 +9,7 @@ class Site extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['location', 'description'];
+    protected $fillable = ['name', 'pays','region','ville','Temp_moy'];
 
     public function cultures()
     {
