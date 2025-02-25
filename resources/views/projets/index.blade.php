@@ -33,7 +33,7 @@
 
 
     <!-- Informations du projet améliorées -->
-     @foreach ( $projects as $project)
+@foreach ( $projects as $project)
          
     
     <div class="project-info-card">
@@ -62,9 +62,14 @@
                                     <button class="btn btn-green btn-custom" data-bs-toggle="modal" data-bs-target="#modifBlocModal-{{$culture->id}}">
                                         <i class="bi bi-pencil-square"></i> Modifier
                                     </button>
-                                    <button class="btn btn-red btn-custom">
-                                        <i class="bi bi-trash"></i> Supprimer
-                                    </button>
+                                    
+                                    <form method="POST" action="{{ route('projects.detachCulture', [$culture->pivot->id]) }}" class="d-inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer le bloc {{$culture->name}} ?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-red btn-custom"  title="Supprimer">
+                                            <i class="bi bi-trash"></i> Supprimer
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -131,12 +136,107 @@
     
 
     <div class="d-flex justify-content-center gap-3 mt-4">
-        <button class="btn btn-green btn-custom"><i class="bi bi-plus-lg"></i> Ajouter un bloc</button>
-        <button class="btn btn-green btn-custom" data-bs-toggle="modal" data-bs-target="#modifProjetModal"><i class="bi bi-pencil-square"></i> Modifier ce Projet</button>
-        <button class="btn btn-red btn-custom"><i class="bi bi-trash"></i> Supprimer ce Projet</button>
+        <button class="btn btn-green btn-custom" data-bs-toggle="modal" data-bs-target="#AjoutBlocModal-{{$project->id}}"><i class="bi bi-plus-lg"></i> Ajouter un bloc</button>
+        <button class="btn btn-green btn-custom" data-bs-toggle="modal" data-bs-target="#modifProjetModal-{{$project->id}}"><i class="bi bi-pencil-square"></i> Modifier ce Projet</button>
+      
+        <form method="POST" action="{{ route('projects.destroy', [$project->id]) }}" class="d-inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer le bloc {{$project->name}} ?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-red btn-custom"  title="Supprimer">
+                                            <i class="bi bi-trash"></i> Supprimer  ce Projet
+                                        </button>
+                                    </form>
     </div>
 </div>
 </div>
+
+<!--ajoutez un bloc -->
+
+    <div class="modal fade" id="AjoutBlocModal-{{$project->id}}" tabindex="-1" aria-labelledby="AjoutBlocModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Header du modal -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="AjoutBlocModalLabel">Ajout d'un bloc dans le projet - {{$project->name}}</h5>
+                    <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="bi bi-x-circle"></i>
+                    </button>
+                </div>
+
+                <!-- Body du modal -->
+                <div class="modal-body">
+                    <form  method="POST" action="{{ route('projects.attachCulture', $project->id) }}">
+                        @csrf
+                        
+                        <div class="mb-3">
+                            <label for="culture_id" class="form-label">Culture présente dans ce bloc</label>
+                            
+                            <select class="form-select" id="culture_id" name="culture_id">
+                            @foreach ($cultures as $AvailableCulture)
+                                                <option value="{{ $AvailableCulture->id }}" {{ $AvailableCulture->id == $culture->id ? 'selected' : '' }}>
+                                                    {{ $AvailableCulture->name }}
+                                                </option>
+                            @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Bouton de modification -->
+                        <button type="submit" class="btn btn-green">ajouter ce bloc</button>
+                    </form>
+                </div>
+
+                <!-- Footer du modal -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+ 
+       <!-- Modal modifier un projet -->
+
+<div class="modal fade" id="modifProjetModal-{{$project->id}}" tabindex="-1" aria-labelledby="modifProjetModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Header du modal -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="modifProjetModalLabel">Modification(s) du projet <strong>{{$project->name}}</strong></h5>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="bi bi-x-circle"></i>
+                </button>
+            </div>
+
+            <!-- Body du modal -->
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="nomProjet" class="form-label">Nom du projet</label>
+                        <input type="text" class="form-control" id="nomProjet" value="{{$project->name}}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="siteGeo" class="form-label">Sélectionnez un site géographique</label>
+                        <select class="form-select" id="siteGeo">
+                          @foreach ($sites as $site)
+                                <option value="{{ $site->id }}">{{ $site->name }}</option>
+                        @endforeach
+
+                    </div>
+
+                    <!-- Bouton de modification -->
+                    <button type="submit" class="btn btn-modal-green">Modifier ce projet</button>
+                </form>
+            </div>
+
+            <!-- Footer du modal -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endforeach
 
 <!-- Modal pour ajouter un projet-->
@@ -198,113 +298,6 @@
 
 
 
-
-
-<!-- Modal modifier un projet -->
-
-<div class="modal fade" id="modifProjetModal" tabindex="-1" aria-labelledby="modifProjetModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- Header du modal -->
-            <div class="modal-header">
-                <h5 class="modal-title" id="modifProjetModalLabel">Modification(s) du projet <strong>culture de riz</strong></h5>
-                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close">
-                    <i class="bi bi-x-circle"></i>
-                </button>
-            </div>
-
-            <!-- Body du modal -->
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="nomProjet" class="form-label">Nom du projet</label>
-                        <input type="text" class="form-control" id="nomProjet" value="culture de riz">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="siteGeo" class="form-label">Sélectionnez un site géographique</label>
-                        <select class="form-select" id="siteGeo">
-                            <option selected>Beedi</option>
-                            <option>Douala</option>
-                            <option>Yaoundé</option>
-                        </select>
-                    </div>
-
-                    <!-- Bouton de modification -->
-                    <button type="submit" class="btn btn-modal-green">Modifier ce projet</button>
-                </form>
-            </div>
-
-            <!-- Footer du modal -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">Fermer</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="AjoutBlocModal" tabindex="-1" aria-labelledby="AjoutBlocModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- Header du modal -->
-            <div class="modal-header">
-                <h5 class="modal-title" id="AjoutBlocModalLabel">Ajout d'un bloc</h5>
-                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close">
-                    <i class="bi bi-x-circle"></i>
-                </button>
-            </div>
-
-            <!-- Body du modal -->
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="nomBloc" class="form-label">Nom du bloc</label>
-                        <input type="text" class="form-control" id="nomBloc" value="culture de riz Bloc 1">
-                    </div>
-
-                     <!-- Temperature courante du bloc -->
-                     <div class="mb-3">
-                            <label for="temperature" class="form-label"> Temperature courante du bloc </label>
-                            <input id="temperature"
-                                   class="form-control  border-green-200 rounded mt-1 w-full focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-                                   type="number" step="0.01" required autofocus/>
-                        </div>
-                        <!-- Humidite  courante du bloc -->
-                        <div class="mb-3">
-                            <label for="humidite" class="form-label"> Humidite courante du bloc </label>
-                            <input id="humidite" 
-                                   class="form-control  border-green-200 rounded mt-1 w-full focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-                                   type="number" step="0.01" required autofocus/>
-                        </div>
-                        <!-- Luminosite courante du bloc -->
-                        <div class="mt-2 w-2/5 mx-auto">
-                            <label for="luminosite" class="form-label"> Luminosite courante du bloc </label>
-                            <input id="luminosite"
-                                   class="form-control  border-green-200 rounded mt-1 w-full foc    us:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-                                   type="number" step="0.01" required autofocus/>
-                        </div>
-
-                    <div class="mb-3">
-                        <label for="cultureBloc" class="form-label">Culture présente dans ce bloc</label>
-                        <select class="form-select" id="cultureBloc">
-                            <option selected>riz</option>
-                            <option>maïs</option>
-                            <option>blé</option>
-                        </select>
-                    </div>
-
-                    <!-- Bouton de modification -->
-                    <button type="submit" class="btn btn-green">ajouter ce bloc</button>
-                </form>
-            </div>
-
-            <!-- Footer du modal -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">Fermer</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <style>
        body {

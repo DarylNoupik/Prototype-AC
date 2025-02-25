@@ -26,7 +26,8 @@ class Project extends Model
     // Relation Many-to-Many avec Culture (si applicable)
     public function cultures()
     {
-        return $this->belongsToMany(Culture::class, 'culture_project');
+        return $this->belongsToMany(Culture::class, 'culture_project')
+        ->withPivot('id');
     }
     
 }

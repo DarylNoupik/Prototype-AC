@@ -1,13 +1,16 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\AppController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\{ProjectController, CultureController, AlertController, SiteController, TeamController,UserController};
+// use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
+
 // Route::get('/', function () {
-//     return view("alert.index"); 
+//     $user = User::where('email', 'test@test.gmail')->first();
+//     return view("profile.partials.update-profile-information-form",compact('user')); 
 // });
 
 Route::get('/', [AuthenticatedSessionController::class, 'create'])
@@ -31,6 +34,9 @@ Route::middleware('auth')->group(function () {
     Route::apiResource('sites', SiteController::class);
     Route::apiResource('teams', TeamController::class);
     Route::apiResource('users', UserController::class);
+
+    Route::post('projects/{project}/attach-culture',[ProjectController::class, 'attachCulture'])->name('projects.attachCulture');
+    route::delete('/detach-culture/{culture}',[ProjectController::class,'detachCulture'])->name('projects.detachCulture');
 });
 
 Route::get('/search/{query}', [ProjectController::class, 'search']);
