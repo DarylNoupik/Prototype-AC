@@ -24,4 +24,9 @@ class Culture extends Model
     {
         return $this->belongsTo(Site::class);
     }
+
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class,'culture_project');
+    }
 }

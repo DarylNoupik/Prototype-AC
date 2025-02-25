@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Auth;
 use App\Models\{Project,Site,Culture};
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 
 class ProjectController extends Controller
@@ -57,6 +58,24 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         $project->delete();
-        return response()->json(['message' => 'Projet supprimé']);
+        return redirect()->back()->with('success', 'projet supprimé  avec succès!');
+    }
+
+    public function attachCulture(Request $request, Project $project)
+    {
+        $request->validate([
+            'culture_id' => 'required|exists:cultures,id',
+        ]);
+
+        $project->cultures()->attach($request->culture_id);
+        return redirect()->route('projects.index');
+    }
+    // Détacher une culture d'un projet
+    public function detachCulture($culture)
+
+    {
+        //dd($culture);
+        DB::table('culture_project')->where('id', $culture)->delete();
+        return redirect()->route('projects.index');
     }
 }
