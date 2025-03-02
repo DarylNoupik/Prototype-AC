@@ -10,6 +10,17 @@
             <h1 class="text-success fw-bold">Panel de Gestion des Utilisateurs </h1>
           
         </div>
+        @if (session('warning'))
+            <div class="alert alert-warning">
+                {{ session('warning') }}
+            </div>
+        @endif
+
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
 
       <!-- Barre de recherche et bouton Ajouter -->
     <div class="d-flex justify-content-between mb-3 align-items-center">
@@ -34,39 +45,81 @@
                 <th>Actions</th>
             </tr>
         </thead>
-        <tbody id="culturesList">
+        <tbody id="userList">
+        @foreach ($users as $user)
             <tr>
-                <td>imelda</td>
-                <td> imelda@gmail.com</td>
+                <td>{{ $user->name }}</td>
+                <td> {{ $user->email }}</td>
                 <td> 
                     <select class="form-select">
-                            <option selected>superadmin</option>
-                            <option>admin</option>
-                            <option>utilisateur</option>
+                            <option value="utilisateur" @if($user->role =='utilisateur') selected @endif>utilisateur</option>
+                            <option value="admin" @if($user->role =='admin') selected @endif>admin</option>
+                            <option value="superAdmin" @if($user->role=='superAdmin') selected @endif>superAdmin</option>
                         </select>
                 </td>
                 <td>
                     <i class="bi bi-check2-circle text-primary action-icon tabi" title="valider le role"></i>
                     <i class="bi bi-pencil text-success action-icon tabi" data-bs-toggle="modal" data-bs-target="#editUserModal" title="Modifier"></i>
-                    <i class="bi bi-trash3 text-danger action-icon tabi" data-bs-toggle="modal" title="Supprimer"></i>
+                    <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer l\'utilisateur {{$user->name}} ?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-link p-0 bg-transparent" style="border: none; background: none; padding: 0;" title="Supprimer">
+                                <i class="bi bi-trash3 text-danger action-icon tabi" data-bs-toggle="modal" title="Supprimer"></i>
+                            </button>
+                    </form>
                 </td>
             </tr>
-            <tr>
-                <td>imelda</td>
-                <td> imelda@gmail.com</td>
-                <td> 
-                    <select class="form-select">
-                            <option selected>superadmin</option>
-                            <option>admin</option>
-                            <option>utilisateur</option>
-                        </select>
-                </td>
-                <td>
-                    <i class="bi bi-check2-circle text-primary action-icon tabi" title="valider le role"></i>
-                    <i class="bi bi-pencil text-success action-icon tabi" data-bs-toggle="modal" data-bs-target="#editSiteModal" title="Modifier"></i>
-                    <i class="bi bi-trash3 text-danger action-icon tabi" data-bs-toggle="modal" title="Supprimer"></i>
-                </td>
-            </tr>
+
+
+
+
+            <!-- Modal Modifier -->
+            <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-success text-white">
+                            <h5 class="modal-title" id="editUserLabel">Modifier un utilisateur</h5>
+                        </div>
+                        <div class="modal-body">
+                            <form id="userForm">
+                            <div class="mb-3">
+                                    <label class="form-label">Nom d'utilisateur</label>
+                                    <input type="text" class="form-control" placeholder="Entrez le nom">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" placeholder="Entrez l'email">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Mot de passe</label>
+                                    <input type="password" class="form-control" placeholder="Entrez le mot de passe">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Confirmation du mot de passe</label>
+                                    <input type="password" class="form-control" placeholder="Confirmez le mot de passe">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Type d'utilisateur</label>
+                                    <select class="form-select">
+                                        <option selected>User</option>
+                                        <option selected>Admin</option>
+                                        <option>superAdmin</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="block bg-green-500 text-white rounded mx-auto w-3/5 p-2 mt-3">
+                                    sauvegarder
+                                </button>
+                            </form>
+                            <div class="modal-footer">
+                                <button type="button" class="block bg-gray-600 text-white p-2 rounded" data-bs-dismiss="modal">
+                                    Fermer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    @endforeach
         </tbody>
     </table>
 </div>
@@ -81,29 +134,30 @@
                 <h5 class="modal-title" id="addUserLabel">Ajouter un utilisateur</h5>
             </div>
             <div class="modal-body">
-                <form id="userForm">
+                <form id="userForm" method="POST" action="{{ route('users.store') }}">
+                    @csrf
                 <div class="mb-3">
-                        <label class="form-label">Nom d'utilisateur</label>
-                        <input type="text" class="form-control" placeholder="Entrez le nom">
+                        <label class="form-label" for="name">Nom d'utilisateur</label>
+                        <input nametype="text" name="name" class="form-control" placeholder="Entrez le nom">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-control" placeholder="Entrez l'email">
+                        <label class="form-label" for="email">Email</label>
+                        <input type="email" class="form-control" name="email" placeholder="Entrez l'email">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Mot de passe</label>
-                        <input type="password" class="form-control" placeholder="Entrez le mot de passe">
+                        <label class="form-label" for="password">Mot de passe</label>
+                        <input type="password" class="form-control" name="password" placeholder="Entrez le mot de passe">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Confirmation du mot de passe</label>
-                        <input type="password" class="form-control" placeholder="Confirmez le mot de passe">
+                        <label class="form-label" for="password_confirmation">Confirmation du mot de passe</label>
+                        <input type="password" class="form-control" name="password_confirmation" placeholder="Confirmez le mot de passe">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Type d'utilisateur</label>
-                        <select class="form-select">
-                            <option selected>User</option>
-                            <option selected>Admin</option>
+                        <label class="form-label" for = "role">Type d'utilisateur</label>
+                        <select class="form-select" name = "role">
                             <option>superAdmin</option>
+                            <option >Admin</option>
+                            <option selected>utilisateur</option>                
                         </select>
                     </div>
                     <button type="submit" class="block bg-green-500 text-white rounded mx-auto w-3/5 p-2 mt-3">
@@ -121,53 +175,6 @@
 </div>
 
 
-    <!-- Modal Modifier -->
-<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title" id="editUserLabel">Modifier un utilisateur</h5>
-            </div>
-            <div class="modal-body">
-                <form id="userForm">
-                <div class="mb-3">
-                        <label class="form-label">Nom d'utilisateur</label>
-                        <input type="text" class="form-control" placeholder="Entrez le nom">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-control" placeholder="Entrez l'email">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Mot de passe</label>
-                        <input type="password" class="form-control" placeholder="Entrez le mot de passe">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Confirmation du mot de passe</label>
-                        <input type="password" class="form-control" placeholder="Confirmez le mot de passe">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Type d'utilisateur</label>
-                        <select class="form-select">
-                            <option selected>User</option>
-                            <option selected>Admin</option>
-                            <option>superAdmin</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="block bg-green-500 text-white rounded mx-auto w-3/5 p-2 mt-3">
-                        sauvegarder
-                    </button>
-                </form>
-                <div class="modal-footer">
-                    <button type="button" class="block bg-gray-600 text-white p-2 rounded" data-bs-dismiss="modal">
-                        Fermer
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
 
 
     

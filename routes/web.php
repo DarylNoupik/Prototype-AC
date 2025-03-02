@@ -22,6 +22,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    
+    Route::setRole('/setRole', [UserController::class, 'setRole'])->name('user.setRole');
+
 
     Route::get('/dashboard', [AppController::class, 'dashboard'])->name('dashboard');
 

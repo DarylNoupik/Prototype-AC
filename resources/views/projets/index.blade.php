@@ -131,7 +131,7 @@
     
 
     <div class="d-flex justify-content-center gap-3 mt-4">
-        <button class="btn btn-green btn-custom"><i class="bi bi-plus-lg"></i> Ajouter un bloc</button>
+        <button class="btn btn-green btn-custom"data-bs-toggle="modal" data-bs-target="#AjoutBlocModal"><i class="bi bi-plus-lg"></i> Ajouter un bloc</button>
         <button class="btn btn-green btn-custom" data-bs-toggle="modal" data-bs-target="#modifProjetModal"><i class="bi bi-pencil-square"></i> Modifier ce Projet</button>
         <button class="btn btn-red btn-custom"><i class="bi bi-trash"></i> Supprimer ce Projet</button>
     </div>
@@ -243,6 +243,8 @@
     </div>
 </div>
 
+<!-- Modal ajouter un bloc -->
+
 <div class="modal fade" id="AjoutBlocModal" tabindex="-1" aria-labelledby="AjoutBlocModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -266,24 +268,24 @@
                      <div class="mb-3">
                             <label for="temperature" class="form-label"> Temperature courante du bloc </label>
                             <input id="temperature"
-                                   class="form-control  border-green-200 rounded mt-1 w-full focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
+                                   class="form-control rounded w-full focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
                                    type="number" step="0.01" required autofocus/>
                         </div>
                         <!-- Humidite  courante du bloc -->
                         <div class="mb-3">
                             <label for="humidite" class="form-label"> Humidite courante du bloc </label>
                             <input id="humidite" 
-                                   class="form-control  border-green-200 rounded mt-1 w-full focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-                                   type="number" step="0.01" required autofocus/>
-                        </div>
-                        <!-- Luminosite courante du bloc -->
-                        <div class="mt-2 w-2/5 mx-auto">
-                            <label for="luminosite" class="form-label"> Luminosite courante du bloc </label>
-                            <input id="luminosite"
-                                   class="form-control  border-green-200 rounded mt-1 w-full foc    us:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
+                                   class="form-control rounded w-full focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
                                    type="number" step="0.01" required autofocus/>
                         </div>
 
+                        <!-- Luminosite courante du bloc -->
+                        <div class="mb-3">
+                            <label for="luminosite" class="form-label"> Luminosite courante du bloc </label>
+                            <input id="luminosite"
+                                   class="form-control rounded w-full focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
+                                   type="number" step="0.01" required autofocus/>
+                        </div>
                     <div class="mb-3">
                         <label for="cultureBloc" class="form-label">Culture présente dans ce bloc</label>
                         <select class="form-select" id="cultureBloc">
@@ -293,7 +295,7 @@
                         </select>
                     </div>
 
-                    <!-- Bouton de modification -->
+                    <!-- Bouton ajout -->
                     <button type="submit" class="btn btn-green">ajouter ce bloc</button>
                 </form>
             </div>
