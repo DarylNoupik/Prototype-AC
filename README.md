@@ -111,6 +111,12 @@ Le projet sera accessible à l'adresse : [http://localhost:8000](http://localhos
 
 ---
 
+
+### **7. Lancer le client MQTT Listener**
+```bash
+php artisan mqtt:mqtt-listener
+```
+
 ## Fonctionnalités principales
 
 - **Gestion des utilisateurs** : Création, connexion, et authentification à deux facteurs (2FA).
