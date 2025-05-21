@@ -3,7 +3,7 @@
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\{ProjectController, CultureController, AlertController, SiteController, TeamController,UserController};
+use App\Http\Controllers\{DataController,ProjectController, CultureController, AlertController, SiteController, TeamController,UserController};
 // use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -37,9 +37,14 @@ Route::middleware('auth')->group(function () {
     Route::apiResource('sites', SiteController::class);
     Route::apiResource('teams', TeamController::class);
     Route::apiResource('users', UserController::class);
+    Route::apiResource('sensor_data', DataController::class);
 
     Route::post('projects/{project}/attach-culture',[ProjectController::class, 'attachCulture'])->name('projects.attachCulture');
     route::delete('/detach-culture/{culture}',[ProjectController::class,'detachCulture'])->name('projects.detachCulture');
+
+    // Routes pour les données des capteurs
+    Route::get('/sensor_data/site/{siteId}', [DataController::class, 'getBySite'])->name('sensor_data.getBySite');
+    Route::get('/sensor_data/latest/{siteId?}', [DataController::class, 'getLatest'])->name('sensor_data.getLatest');
 });
 
 Route::get('/search/{query}', [ProjectController::class, 'search']);
