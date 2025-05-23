@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SensorData;
-use App\Models\Site;
+use App\Models\Culture;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
@@ -12,57 +12,33 @@ class DataController extends Controller
     /**
      * Get all sensor data for a specific site, sorted by creation date.
      */
-    public function getBySite($siteId): JsonResponse
+    public function getByCulture($cultureId)
     {
-        // Validate that the site exists
-        $site = Site::find($siteId);
-        if (!$site) {
-            return response()->json(['error' => 'Site not found'], 404);
-        }
+        $data = SensorData::where('culture_id', $cultureId)
+            ->latest()
+            ->take(50)
+            ->get();
 
-        // Retrieve data for the site, sorted by created_at (descending)
-        $data = SensorData::where('site_id', $siteId)
-            ->with('site')
-            ->orderBy('created_at', 'desc')
-            ->paginate(20); // Paginate to avoid overloading
-
-        return response()->json($data);
+        return response()->json(['data' => $data]);
     }
 
-    /**
-     * Get the latest sensor data, optionally filtered by site.
-     */
-    public function getLatest($siteId = null): JsonResponse
+    public function getLatest($cultureId)
     {
-        $query = SensorData::query()->with('site')->orderBy('created_at', 'desc');
+        $data = SensorData::where('culture_id', $cultureId)
+            ->latest()
+            ->first();
 
-        if ($siteId) {
-            // Validate that the site exists
-            $site = Site::find($siteId);
-            if (!$site) {
-                return response()->json(['error' => 'Site not found'], 404);
-            }
-            $query->where('site_id', $siteId);
-        }
-
-        $latest = $query->first();
-
-        if (!$latest) {
-            return response()->json(['error' => 'No data found'], 404);
-        }
-
-        return response()->json($latest);
+        return response()->json($data ?: ['error' => 'Aucune donnée disponible']);
     }
-
     /**
      * Display a listing of all sensor data.
      */
     public function index(): JsonResponse
     {
-        $data = SensorData::with('site')->paginate(20);
+        $data = SensorData::with('cultures')->paginate(20);
         return response()->json($data);
     }
-
+    //cultures or culture i dont even know
     /**
      * Store a newly created sensor data in storage.
      */
@@ -73,7 +49,7 @@ class DataController extends Controller
             'luminosity' => 'required|numeric|min:0',
             'co2_level' => 'required|numeric|min:0',
             'soil_humidity' => 'required|numeric|between:0,100',
-            'site_id' => 'required|exists:sites,id',
+            'cultures_id' => 'required|exists:cultures,id',
         ]);
 
         $data = SensorData::create($validated);
@@ -85,7 +61,7 @@ class DataController extends Controller
      */
     public function show(SensorData $data): JsonResponse
     {
-        $data->load('site');
+        $data->load('cultures');
         return response()->json($data);
     }
 
@@ -99,7 +75,7 @@ class DataController extends Controller
             'luminosity' => 'numeric|min:0',
             'co2_level' => 'numeric|min:0',
             'soil_humidity' => 'numeric|between:0,100',
-            'site_id' => 'exists:sites,id',
+            'cultures_id' => 'exists:cultures,id',
         ]);
 
         $data->update($validated);
@@ -114,4 +90,5 @@ class DataController extends Controller
         $data->delete();
         return response()->json(null, 204);
     }
+    
 }
