@@ -37,11 +37,11 @@ class MqttPublisher extends Command
 
             // Boucle infinie pour simuler les données
             while (true) {
-                foreach ([1, 2, 3] as $siteId) {
+                foreach ([1, 2, 3] as $cultureId) {
                     // Générer des données aléatoires
                     $data = [
-                        'site_id' => $siteId,
-                        'temperature' => round(mt_rand(100, 400) / 10, 2), // -10 à 40°C
+                        'cultures_id' => $cultureId,
+                        'temperature' => round(mt_rand(100, 400) / 10, 2), // 10 à 40°C
                         'luminosity' => round(mt_rand(0, 1000), 2), // 0 à 1000 lux
                         'co2_level' => round(mt_rand(300, 1000), 2), // 300 à 1000 ppm
                         'soil_humidity' => round(mt_rand(0, 1000) / 10, 2), // 0 à 100%
@@ -53,7 +53,7 @@ class MqttPublisher extends Command
                     // Publier sur le topic
                     $mqtt->publish($topic, $payload, 0);
 
-                    $this->info("Published data for site {$siteId}: {$payload}");
+                    $this->info("Published data for culture {$cultureId}: {$payload}");
                 }
 
                 // Attendre 5 secondes avant la prochaine publication
