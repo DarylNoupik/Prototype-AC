@@ -51,7 +51,7 @@ class MqttListener extends Command
                     }
 
                     // Vérifier les champs requis
-                    if (!isset($data['site_id'], $data['temperature'], $data['luminosity'], $data['co2_level'], $data['soil_humidity'])) {
+                    if (!isset($data['cultures_id'], $data['temperature'], $data['luminosity'], $data['co2_level'], $data['soil_humidity'])) {
                         $this->warn("Missing required fields in message");
                         \Log::warning("Missing fields: {$message}");
                         return;
@@ -59,7 +59,7 @@ class MqttListener extends Command
 
                     // Vérifier les plages de valeurs
                     $rules = [
-                        'site_id' => 'exists:sites,id',
+                        'cultures_id' => 'exists:cultures,id',
                         'temperature' => 'numeric|between:-50,50',
                         'luminosity' => 'numeric|min:0',
                         'co2_level' => 'numeric|min:0',
@@ -76,14 +76,14 @@ class MqttListener extends Command
 
                     // Insérer dans la base de données
                     SensorData::create([
-                        'site_id' => $data['site_id'],
+                        'cultures_id' => $data['cultures_id'],
                         'temperature' => $data['temperature'],
                         'luminosity' => $data['luminosity'],
                         'co2_level' => $data['co2_level'],
                         'soil_humidity' => $data['soil_humidity'],
                     ]);
 
-                    $this->info("Inserted data for site {$data['site_id']}");
+                    $this->info("Inserted data for site {$data['cultures_id']}");
                 } catch (\Exception $e) {
                     $this->error("Error processing message: " . $e->getMessage());
                     \Log::error("Error processing message: {$e->getMessage()}");
