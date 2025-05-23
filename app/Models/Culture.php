@@ -11,8 +11,6 @@ class Culture extends Model
 
     protected $fillable = [
         'name',
-        'phase',
-        'site_id',
         'temp_min',
         'temp_max',
         'tco2_min',
@@ -29,4 +27,10 @@ class Culture extends Model
     {
         return $this->belongsToMany(Project::class,'culture_project');
     }
+
+    public function sensorData()
+    {
+        return $this->hasMany(SensorData::class, 'cultures_id');
+    }
+
 }
