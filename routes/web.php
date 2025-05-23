@@ -26,7 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     
-    Route::setRole('/setRole', [UserController::class, 'setRole'])->name('user.setRole');
+    //Route::setRole('/setRole', [UserController::class, 'setRole'])->name('user.setRole');
 
 
     Route::get('/dashboard', [AppController::class, 'dashboard'])->name('dashboard');
@@ -42,9 +42,12 @@ Route::middleware('auth')->group(function () {
     Route::post('projects/{project}/attach-culture',[ProjectController::class, 'attachCulture'])->name('projects.attachCulture');
     route::delete('/detach-culture/{culture}',[ProjectController::class,'detachCulture'])->name('projects.detachCulture');
 
-    // Routes pour les données des capteurs
-    Route::get('/sensor_data/site/{siteId}', [DataController::class, 'getBySite'])->name('sensor_data.getBySite');
-    Route::get('/sensor_data/latest/{siteId?}', [DataController::class, 'getLatest'])->name('sensor_data.getLatest');
+        // Routes pour les données des capteurs
+    Route::get('/sensor-data/culture/{cultureId}', [SensorDataController::class, 'getByCulture'])->name('sensor-data.getByCulture');
+    Route::get('/sensor-data/latest/{cultureId}', [SensorDataController::class, 'getLatest'])->name('sensor-data.getLatest');
+    Route::get('/projets/latest-data', [ProjectController::class, 'latestData']);
+
+
 });
 
 Route::get('/search/{query}', [ProjectController::class, 'search']);
