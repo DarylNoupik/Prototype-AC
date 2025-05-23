@@ -9,7 +9,7 @@ class Project extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'user_id', 'site_id'];
+    protected $fillable = ['name', 'user_id', 'site_id'];
 
     // Relation avec l'utilisateur
     public function user()
@@ -26,7 +26,7 @@ class Project extends Model
     // Relation Many-to-Many avec Culture (si applicable)
     public function cultures()
     {
-        return $this->belongsToMany(Culture::class, 'culture_project')
+        return $this->belongsToMany(Culture::class, 'culture_projet')
         ->withPivot('id');
     }
     
