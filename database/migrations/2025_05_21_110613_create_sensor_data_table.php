@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('sensor_data', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('site_id')->constrained()->onDelete('cascade');
+            $table->foreignId('cultures_id')->constrained()->onDelete('cascade');
             $table->decimal('temperature', 8, 2); // Increased precision
             $table->decimal('co2_level', 8, 2); // Renamed
             $table->decimal('soil_humidity', 8, 2); // Renamed
