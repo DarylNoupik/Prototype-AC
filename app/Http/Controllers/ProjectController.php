@@ -10,14 +10,36 @@ use Illuminate\Support\Facades\DB;
 class ProjectController extends Controller
 {
 
-
     public function index()
     {
         $cultures= Culture::all();
         $sites = Site::all();
         $projects = Project::with(['site', 'user','cultures'])->paginate(5);
+
+        foreach ($projects as $project) {
+            foreach ($project->cultures as $culture) {
+                $culture->latestSensorData = $culture->sensorData()->latest()->first();
+            }
+        }
         return view('projets.index',compact(['projects','sites','cultures']));
     }
+
+    public function latestData()
+    {
+        $projects = Project::with('cultures.sensorData')->get();
+
+        foreach ($projects as $project) {
+            foreach ($project->cultures as $culture) {
+                $culture->latestSensorData = $culture->sensorData()->latest()->first();
+            }
+        }
+
+        // Ici on renvoie juste les cultures avec latestSensorData (optionnel: tu peux filtrer ou formater)
+        $cultures = $projects->flatMap->cultures;
+
+        return response()->json($cultures);
+    }
+
 
     public function store(Request $request)
     {
@@ -75,7 +97,7 @@ class ProjectController extends Controller
 
     {
         //dd($culture);
-        DB::table('culture_project')->where('id', $culture)->delete();
+        DB::table('culture_projet')->where('id', $culture)->delete();
         return redirect()->route('projects.index');
     }
 }
