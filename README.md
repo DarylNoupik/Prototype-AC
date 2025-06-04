@@ -112,9 +112,15 @@ Le projet sera accessible à l'adresse : [http://localhost:8000](http://localhos
 ---
 
 
-### **7. Lancer le client MQTT Listener**
+### **7. Lancer le client MQTT Subscriber**
 ```bash
-php artisan mqtt:mqtt-listener
+php artisan mqtt:subscribe-sensor-data
+```
+
+
+### **.9 Lancer le client MQTT Publisher*
+```bash
+php artisan mqtt:publish-sensor-data
 ```
 
 ## Fonctionnalités principales
