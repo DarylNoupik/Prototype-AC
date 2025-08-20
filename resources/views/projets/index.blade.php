@@ -5,7 +5,189 @@
 <x-app-layout>
     <head>
         <meta name="csrf-token" content="{{ csrf_token() }}">
+    <style>
+            :root { --sidebar-w: 260px; }
+.content{
+  margin-left: var(--sidebar-w);
+  width: calc(100% - var(--sidebar-w));
+  padding: 20px;
+  position: relative;
+  z-index: 1;               
+  overflow-x: hidden;      
+}
+.sidebar{
+  position: fixed; 
+  left: 0; top: 0; bottom: 0; width: var(--sidebar-w);
+  z-index: 2000;             
+}
+.project-info-card, .chart-container {
+  max-width: 100%;
+  overflow: hidden;           
+}
+canvas{
+  display: block;             
+  max-width: 100%;            
+  height: auto;
+}
+
+
+
+         </style>   
+        <style>
+        body {
+            background-color: #f4f5f7;
+            font-family: 'Arial', sans-serif;
+        }
+        .search-bar {
+            background: white;
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            width: 50%;
+        }
+        .search-bar input {
+            border: none;
+            outline: none;
+            flex: 1;
+        }
+        .project-info-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .project-info-card h3 {
+            font-weight: bold;
+            color: #198754;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .project-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .project-info i {
+            color: #28a745;
+            font-size: 1.2rem;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        .card-header {
+            background: #28a745;
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .card-body {
+            padding: 20px;
+            text-align: justify;
+        }
+        .card-footer {
+            background: #f8f9fa;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .btn-custom {
+            font-size: 0.9rem;
+            font-weight: bold;
+            border-radius: 8px;
+            border: 2px solid;
+            padding: 8px 15px;
+            transition: all 0.3s ease;
+        }
+        .btn-green {
+            color: #28a745;
+            border-color: #28a745;
+            background: transparent;
+        }
+        .btn-green:hover {
+            background: #28a745;
+            color: white;
+        }
+        .btn-red {
+            color: #dc3545;
+            border-color: #dc3545;
+            background: transparent;
+        }
+        .btn-red:hover {
+            background: #dc3545;
+            color: white;
+        }
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .modal-header {
+            border-bottom: none;
+            padding: 15px 20px;
+        }
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .close-btn {
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            color: #28a745;
+        }
+        .modal-body {
+            padding: 20px;
+        }
+        .form-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+        }
+        .btn-modal-green {
+            background: #28a745;
+            color: white;
+            font-weight: bold;
+            padding: 10px;
+            width: 100%;
+            border-radius: 8px;
+            border: none;
+        }
+        .btn-close-modal {
+            background: #6c757d;
+            color: white;
+            border-radius: 8px;
+            padding: 8px 15px;
+            font-weight: bold;
+            border: none;
+        }
+        .content {
+            margin-left: 50px;
+            padding: 20px;
+        }
+    </style>
     </head>
+
 
     <div class="content">
         <div class="container mt-4">
@@ -52,7 +234,11 @@
                     <!-- Graphique pour les données historiques du site -->
                     <div class="mt-4">
                         <h4 class="text-lg font-medium">Données historiques du site</h4>
+                         <div class="chart-container">
+                            <div class="chart-wrapper">
                         <canvas id="chart-{{ $project->site->id }}" width="400" height="200"></canvas>
+                             </div>
+                        </div>
                     </div>
 
                  
@@ -295,6 +481,7 @@
       },
       options: {
         responsive: true,
+         maintainAspectRatio: false,
         scales: {
           x: { title: { display: true, text: 'Temps' } },
           y: { title: { display: true, text: 'Valeur' } }
@@ -381,160 +568,6 @@
 
         </div>
     </div>
-
-    <style>
-        body {
-            background-color: #f4f5f7;
-            font-family: 'Arial', sans-serif;
-        }
-        .search-bar {
-            background: white;
-            border-radius: 12px;
-            padding: 12px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            width: 50%;
-        }
-        .search-bar input {
-            border: none;
-            outline: none;
-            flex: 1;
-        }
-        .project-info-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-        .project-info-card h3 {
-            font-weight: bold;
-            color: #198754;
-            text-align: center;
-            margin-bottom: 15px;
-        }
-        .project-info {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .project-info i {
-            color: #28a745;
-            font-size: 1.2rem;
-        }
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        .project-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-        }
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        }
-        .card-header {
-            background: #28a745;
-            color: white;
-            padding: 15px;
-            font-weight: bold;
-            text-align: center;
-        }
-        .card-body {
-            padding: 20px;
-            text-align: justify;
-        }
-        .card-footer {
-            background: #f8f9fa;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-        }
-        .btn-custom {
-            font-size: 0.9rem;
-            font-weight: bold;
-            border-radius: 8px;
-            border: 2px solid;
-            padding: 8px 15px;
-            transition: all 0.3s ease;
-        }
-        .btn-green {
-            color: #28a745;
-            border-color: #28a745;
-            background: transparent;
-        }
-        .btn-green:hover {
-            background: #28a745;
-            color: white;
-        }
-        .btn-red {
-            color: #dc3545;
-            border-color: #dc3545;
-            background: transparent;
-        }
-        .btn-red:hover {
-            background: #dc3545;
-            color: white;
-        }
-        .modal-content {
-            border-radius: 15px;
-            border: none;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        .modal-header {
-            border-bottom: none;
-            padding: 15px 20px;
-        }
-        .modal-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-        .close-btn {
-            background: transparent;
-            border: none;
-            font-size: 1.5rem;
-            color: #28a745;
-        }
-        .modal-body {
-            padding: 20px;
-        }
-        .form-label {
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-        .form-control, .form-select {
-            border-radius: 8px;
-            border: 1px solid #ced4da;
-        }
-        .btn-modal-green {
-            background: #28a745;
-            color: white;
-            font-weight: bold;
-            padding: 10px;
-            width: 100%;
-            border-radius: 8px;
-            border: none;
-        }
-        .btn-close-modal {
-            background: #6c757d;
-            color: white;
-            border-radius: 8px;
-            padding: 8px 15px;
-            font-weight: bold;
-            border: none;
-        }
-        .content {
-            margin-left: 50px;
-            padding: 20px;
-        }
-    </style>
     <script>
     async function fetchLatestData() {
         try {
