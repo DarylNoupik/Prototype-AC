@@ -63,6 +63,12 @@ CACHE_DRIVER=file
 QUEUE_CONNECTION=sync
 SESSION_DRIVER=file
 SESSION_LIFETIME=120
+
+MQTT_HOST=127.0.0.1
+MQTT_PORT=1883
+MQTT_USERNAME=
+MQTT_PASSWORD=
+MQTT_TOPIC=sensors
 ```
 Générez la clé de l'application :
 ```bash
@@ -104,6 +110,18 @@ php artisan serve
 Le projet sera accessible à l'adresse : [http://localhost:8000](http://localhost:8000)
 
 ---
+
+
+### **7. Lancer le client MQTT Subscriber**
+```bash
+php artisan mqtt:subscribe-sensor-data
+```
+
+
+### **.9 Lancer le client MQTT Publisher*
+```bash
+php artisan mqtt:publish-sensor-data
+```
 
 ## Fonctionnalités principales
 

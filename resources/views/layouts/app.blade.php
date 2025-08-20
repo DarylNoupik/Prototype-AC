@@ -17,6 +17,7 @@
 
     </style>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    @stack('styles')
 </head>
 <body>
 
@@ -47,5 +48,6 @@
             dropdown.classList.toggle('hidden');
         });
     </script>
+     @stack('scripts')
 </body>
 </html>

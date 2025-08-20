@@ -15,4 +15,9 @@ class Site extends Model
     {
         return $this->hasMany(Culture::class);
     }
+
+    public function sensorData()
+    {
+        return $this->hasMany(SensorData::class);
+    }
 }

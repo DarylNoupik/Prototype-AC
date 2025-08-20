@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('culture_projet', function (Blueprint $table) {
+        Schema::create('device_data', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('culture_id')->constrained()->onDelete('cascade');
-            $table->foreignId('project_id')->constrained()->onDelete('cascade');
+            $table->foreignId('device_id')->constrained()->onDelete('cascade');
+            $table->json('payload'); // pour les données capteurs
+            $table->string('topic');
+            $table->timestamp('received_at')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('culture_projet');
+        Schema::dropIfExists('device_data');
     }
 };
